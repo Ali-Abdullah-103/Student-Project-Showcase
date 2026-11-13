@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Student Project Showcase – browse, filter and submit SEECS student projects.">
+  <title>Student Project Showcase</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand" aria-label="Student Project Showcase home">
+        <span class="brand-mark" aria-hidden="true">SP</span>
+        <span class="brand-text">Project Showcase</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+      </button>
+      <nav id="siteNav" class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#browse">Browse</a></li>
+          <li><a href="#submit">Submit</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#shortlist">Shortlist <span class="badge" id="shortlistCount">0</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="home" class="hero" aria-labelledby="heroTitle">
+      <div class="container hero-inner">
+        <div>
+          <h1 id="heroTitle">Discover what students are building</h1>
+          <p class="lead">A showcase where students publish semester projects and visitors, recruiters and faculty reviewers find work by course, technology or keyword.</p>
+          <div class="hero-actions">
+            <a href="#browse" class="btn btn-primary">Browse projects</a>
+            <a href="#submit" class="btn btn-ghost">Submit your project</a>
+          </div>
+        </div>
+        <dl class="hero-stats" aria-label="Showcase summary">
+          <div><dt>Projects</dt><dd id="heroProjects">0</dd></div>
+          <div><dt>Students</dt><dd id="heroStudents">0</dd></div>
+          <div><dt>Courses</dt><dd id="heroCourses">0</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- BROWSE -->
+    <section id="browse" class="section" aria-labelledby="browseTitle">
+      <div class="container">
+        <h2 id="browseTitle">Browse projects</h2>
+        <form class="filters" id="filterForm" role="search" aria-label="Filter projects">
+          <div class="field field-search">
+            <label for="searchInput">Search</label>
+            <input type="search" id="searchInput" name="q" placeholder="Title, student, technology…" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="categoryFilter">Category</label>
+            <select id="categoryFilter" name="category">
+              <option value="all">All categories</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="semesterFilter">Semester</label>
+            <select id="semesterFilter" name="semester">
+              <option value="all">All semesters</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sortSelect">Sort by</label>
+            <select id="sortSelect" name="sort">
+              <option value="newest">Newest first</option>
+              <option value="likes">Most liked</option>
+              <option value="title">Title (A–Z)</option>
+            </select>
+          </div>
+          <div class="field field-check">
+            <input type="checkbox" id="featuredOnly" name="featured">
+            <label for="featuredOnly">Featured only</label>
+          </div>
+          <button type="reset" class="btn btn-ghost btn-small" id="resetFilters">Clear filters</button>
+        </form>
+
+        <div class="tag-cloud" id="tagCloud" aria-label="Filter by technology tag"></div>
+
+        <p class="result-count" id="resultCount" aria-live="polite"></p>
+        <ul class="project-grid" id="projectGrid"></ul>
+        <div class="empty-state" id="emptyState" hidden>
+          <h3>No projects match your filters</h3>
+          <p>Try a different keyword, pick another category, or clear the filters.</p>
+          <button type="button" class="btn btn-primary btn-small" id="emptyReset">Clear filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBMIT -->
+    <section id="submit" class="section section-alt" aria-labelledby="submitTitle">
+      <div class="container submit-layout">
+        <div class="submit-intro">
+          <h2 id="submitTitle">Submit a project</h2>
+          <p>Add your project to the showcase. Fields marked <abbr title="required">*</abbr> are required.</p>
+          <aside class="rule-box" aria-labelledby="ruleTitle">
+            <h3 id="ruleTitle">Showcase rules</h3>
+            <ul>
+              <li>Teams have <strong>1 to 4</strong> members.</li>
+              <li>A title may appear only <strong>once per semester</strong>.</li>
+              <li>Projects are <strong>Featured</strong> only with a GitHub repository <em>and</em> a live demo link.</li>
+            </ul>
+          </aside>
+        </div>
+
+        <form id="submitForm" class="submit-form" novalidate>
+          <fieldset>
+            <legend>Project details</legend>
+            <div class="field">
+              <label for="pTitle">Project title <abbr title="required">*</abbr></label>
+              <input id="pTitle" name="title" type="text" required minlength="4" maxlength="60" aria-describedby="pTitleHelp pTitleErr">
+              <small id="pTitleHelp" class="help">4–60 characters.</small>
+              <span class="error" id="pTitleErr" aria-live="polite"></span>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="pCategory">Category <abbr title="required">*</abbr></label>
+                <select id="pCategory" name="category" required aria-describedby="pCategoryErr">
+                  <option value="">Choose…</option>
+                </select>
+                <span class="error" id="pCategoryErr" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="pSemester">Semester <abbr title="required">*</abbr></label>
+                <select id="pSemester" name="semester" required aria-describedby="pSemesterErr">
+                  <option value="">Choose…</option>
+                </select>
+                <span class="error" id="pSemesterErr" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="pCourse">Course code <abbr title="required">*</abbr></label>
+              <input id="pCourse" name="course" type="text" required pattern="[A-Za-z]{2,4}-?[0-9]{3}" placeholder="e.g. CS344" aria-describedby="pCourseHelp pCourseErr">
+              <small id="pCourseHelp" class="help">2–4 letters followed by 3 digits.</small>
+              <span class="error" id="pCourseErr" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="pSummary">Short summary <abbr title="required">*</abbr></label>
+              <textarea id="pSummary" name="summary" rows="3" required minlength="20" maxlength="240" aria-describedby="pSummaryHelp pSummaryErr"></textarea>
+              <small id="pSummaryHelp" class="help"><span id="summaryCounter">0</span>/240 characters, minimum 20.</small>
+              <span class="error" id="pSummaryErr" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="pTags">Technologies <abbr title="required">*</abbr></label>
+              <input id="pTags" name="tags" type="text" required placeholder="HTML, CSS, JavaScript" aria-describedby="pTagsHelp pTagsErr">
+              <small id="pTagsHelp" class="help">Comma-separated, 1–6 tags.</small>
+              <span class="error" id="pTagsErr" aria-live="polite"></span>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Team</legend>
+            <div class="field">
+              <label for="pMembers">Team members <abbr title="required">*</abbr></label>
+              <input id="pMembers" name="members" type="text" required placeholder="Ayesha Khan, Bilal Ahmed" aria-describedby="pMembersHelp pMembersErr">
+              <small id="pMembersHelp" class="help">Comma-separated full names, 1–4 people.</small>
+              <span class="error" id="pMembersErr" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="pEmail">Contact email <abbr title="required">*</abbr></label>
+              <input id="pEmail" name="email" type="email" required autocomplete="email" aria-describedby="pEmailErr">
+              <span class="error" id="pEmailErr" aria-live="polite"></span>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Links</legend>
+            <div class="field">
+              <label for="pRepo">GitHub repository</label>
+              <input id="pRepo" name="repo" type="url" placeholder="https://github.com/user/repo" pattern="https://github\.com/.+/.+" aria-describedby="pRepoErr">
+              <span class="error" id="pRepoErr" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="pDemo">Live demo URL</label>
+              <input id="pDemo" name="demo" type="url" placeholder="https://…" aria-describedby="pDemoErr">
+              <span class="error" id="pDemoErr" aria-live="polite"></span>
+            </div>
+            <p class="featured-preview" id="featuredPreview" aria-live="polite">Add both links to qualify as <strong>Featured</strong>.</p>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add project</button>
+            <button type="reset" class="btn btn-ghost">Reset</button>
+          </div>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="stats" class="section" aria-labelledby="statsTitle">
+      <div class="container">
+        <h2 id="statsTitle">Showcase statistics</h2>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <h3>Projects by category</h3>
+            <ul class="bar-list" id="categoryBars"></ul>
+          </article>
+          <article class="stat-card">
+            <h3>Most-used technologies</h3>
+            <ul class="bar-list" id="tagBars"></ul>
+          </article>
+          <article class="stat-card">
+            <h3>Highlights</h3>
+            <dl class="highlight-list" id="highlights"></dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHORTLIST -->
+    <section id="shortlist" class="section section-alt" aria-labelledby="shortlistTitle">
+      <div class="container">
+        <h2 id="shortlistTitle">Your shortlist</h2>
+        <p>Save projects to review later (for example, as a reviewer or recruiter). The list is kept in this browser only.</p>
+        <ul class="shortlist" id="shortlistList"></ul>
+        <p class="empty-note" id="shortlistEmpty">Nothing saved yet. Use <strong>☆ Save</strong> on any project card.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- DETAIL DIALOG -->
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="dlgTitle">
+    <article>
+      <header class="dlg-header">
+        <h2 id="dlgTitle"></h2>
+        <button type="button" class="icon-btn" id="dlgClose" aria-label="Close details">✕</button>
+      </header>
+      <div id="dlgBody"></div>
+    </article>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Student Project Showcase · CS344 Web Engineering · Assignment 1 (client-side only). Sample data is fictional.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
