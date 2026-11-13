@@ -2,7 +2,7 @@
 
 A responsive web app for publishing and discovering student projects. Students add their semester projects, and visitors such as faculty reviewers, recruiters and other students can search, filter and shortlist them.
 
-**Live demo:** https://&lt;username&gt;.github.io/student-project-showcase/
+**Live demo:** [ali-abdullah-103.github.io/Student-Project-Showcase](https://ali-abdullah-103.github.io/Student-Project-Showcase/)
 
 Built with plain HTML, CSS and JavaScript: no frameworks, libraries or build step.
 
