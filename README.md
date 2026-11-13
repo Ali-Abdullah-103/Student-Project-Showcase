@@ -67,5 +67,3 @@ All sample projects, names and links are fictional. Links use the reserved `exam
 ## Credits
 
 Built by Ali Abdullah Abbasi for CS344 Web Engineering (Assignment 1, idea #31). No third-party code, images or fonts are used. Icons are Unicode characters, and the font is the system font stack.
-
-**AI assistance:** _describe how AI tools were used._
